@@ -74,3 +74,12 @@ func RemoveUserByID(id int) error {
 	}
 	return fmt.Errorf("User id: %d not found", id)
 }
+
+func GetUserByDetail(u User)(User,error){
+	for _, us := range users {
+		if us.Email==u.Email && us.Password==u.Password {			
+			return *us, nil
+		}
+	}
+	return User{},fmt.Errorf("Wrong User details")
+}

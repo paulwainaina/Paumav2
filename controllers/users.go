@@ -14,7 +14,9 @@ type UserController struct {
 }
 
 func (uc UserController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path == "/users" {
+	if r.URL.Path=="/login"{
+		uc.login(w,r)
+	} else if r.URL.Path == "/users" {
 		switch r.Method {
 		case http.MethodGet:
 			uc.getAll(w, r)
@@ -74,6 +76,22 @@ func (uc *UserController) post(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	u, err = models.AddUser(u)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		return
+	}
+	encodeResponseAsJson(u, w)
+}
+
+func (uc * UserController) login(w http.ResponseWriter,r * http.Request){
+	u, err := uc.parseRequest(r)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Could not Parse User object"))
+		return
+	}
+	u,err=models.GetUserByDetail(u)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))

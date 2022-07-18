@@ -8,11 +8,12 @@ import (
 
 func RegisterContorllers() {
 	userController := NewUserController()
-	http.HandleFunc("/users",userController.ServeHTTP)
-	http.HandleFunc("/users/",userController.ServeHTTP)
+	http.HandleFunc("/users", userController.ServeHTTP)
+	http.HandleFunc("/users/", userController.ServeHTTP)
+	http.HandleFunc("/login", userController.ServeHTTP)
 }
 
-func encodeResponseAsJson(data interface{},w io.Writer){
-	enc:=json.NewEncoder(w)
+func encodeResponseAsJson(data interface{}, w io.Writer) {
+	enc := json.NewEncoder(w)
 	enc.Encode(data)
 }
