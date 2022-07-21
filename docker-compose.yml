@@ -3,3 +3,11 @@ services:
     build: .
     ports:
       - "8080:8080"
+  database:
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME="${DBUSERNAME}"
+      - MONGO_INITDB_ROOT_PASSWORD="${DBPASSWORD}"
